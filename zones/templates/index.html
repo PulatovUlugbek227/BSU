@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="bg-agro" >
+  <svg width="100%" height="1400px">
+    {% for place in area %}
+    <a href="#{{place.id_polygon}}" data-toggle="modal">
+      {{place.polygon|safe}}
+    </a>
+    {% endfor %}
+  </svg>
+</div>
+{% for place in area %}
+<div class="modal fade" id="{{place.id_polygon}}"  aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">
+          {{place.square}} m2
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="">
+          <input type="hidden" name="area" value="{{place.id}}">
+        </form>
+        {% for child in place.area_set.all %}
+        <table class="table table-success table-striped">
+          <caption>
+            {{child.sort_num}}
+          </caption>
+          <tr>
+            <th>№</th>
+            <th>Дерево</th>
+            <th>Студент</th>
+            <th>действие</th>
+          </tr>
+          {% for tree in child.tree_set.all %}
+          <tr>
+            <td>{{forloop.counter}}</td>
+            <td>
+              <a style="color:black;" href="{{tree.link}}">
+                {{tree.tree_kind.title}}
+              </a>
+            </td>
+            <td>
+              {{tree.owner}}
+            </td>
+            <td>
+              <a href="{% url 'tree_delete' tree.id %}" style="text-decoration: none; margin: 0 20px;"><i class="fas fa-trash-alt" style="color: black;"></i></a>
+              <a href="{% url 'tree_edit' tree.id %}" ><i class="fas fa-edit" style="color: black;"></i></a>
+            </td>
+          </tr>
+          {% endfor %}
+        </table>
+        {% endfor %}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+<script>
+var menu = document.querySelector(".menu"),
+    toggle = document.querySelector(".menu-toggle");
+
+function toggleToggle() {
+  toggle.classList.toggle("menu-open");
+};
+
+function toggleMenu() {
+  menu.classList.toggle("active");
+};
+
+toggle.addEventListener("click", toggleToggle, false);
+toggle.addEventListener("click", toggleMenu, false);
+</script>
+{% endblock %}

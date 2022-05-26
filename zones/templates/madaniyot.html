@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="bg-agro-madaniyot">  
+    <svg width="100%" height="855px">
+      {% for m in area %}
+      <a href="#{{m.id_polygon}}" data-toggle="modal" >
+        {{m.polygon|safe}}
+      </a>
+      {% endfor %}
+    </svg>
+  </div>
+
+  {% for m in area %}
+  <div class="modal fade" id="{{m.id_polygon}}"  aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">
+            {{i.square}} m2
+          </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+          <div class="modal-body">
+            <form action="">
+              <input type="hidden" name="area" value="{{area.id}}">
+            </form>
+            <table class="table table-success table-striped">
+              <tr>
+                <th>№</th>
+                <th>Дерево</th>
+                <th>Студент</th>
+                <th>Действие</th>
+              </tr>
+              {% for t in i.tree_set.all %}
+              <tr>
+                <td>
+                  {{forloop.counter}}
+                </td>
+                <td>
+                  <a style="color:black;" href="{{t.link}}">
+                    {{t.tree_kind.title}}
+                  </a>
+                </td>
+                <td>
+                  {{t.owner}}
+                </td>
+                <td>
+                  <a href="{% url 'tree_delete' t.id %}" style="text-decoration: none; margin: 0 20px;"><i class="fas fa-trash-alt" style="color: black;"></i></a>
+                  <a href="{% url 'tree_edit' t.id %}" ><i class="fas fa-edit" style="color: black;"></i></a>
+                </td>
+              </tr>
+              {% endfor %}
+            </table>
+            <div>
+            <hr>
+            <details>
+              <summary class="btn btn-outline-success">
+                Создать
+              </summary>
+              <nav class="menu">
+                <form action="{% url 'tree_create' %}" method="POST">
+                  {% csrf_token %}
+                  <p>
+                    <label for="">
+                      Выберите Дерево
+                    </label>
+                    <select name="tree_kind" class="select2 form-control" style="width: 100%;">
+                      {% for t in tree_kind %}
+                        <option value="{{t.id}}">{{t.title}}</option>
+                      {% endfor %}
+                    </select>
+                  </p>
+                  <p>
+                    <label for="">Выберите Студента</label>
+                    <select name="owner"  class="select2 form-control" style="width: 100%;">
+                      {% for owner in owners %}
+                        <option value="{{owner.id}}">{{owner.name}}</option>
+                      {% endfor %}
+                    </select>
+                  </p>
+                  <p>
+                    <label for="">Широта</label>
+                    <input type="text" class="form-control" name="latitude" required placeholder="Координаты">
+                  </p>
+                  <p>
+                    <label for="">Долгота</label>
+                    <input type="text" class="form-control" name="longitude" required placeholder="Координаты">
+                  </p>
+                  <p>       
+                    <select name="area"style="display: none" selec class="form-control">
+                        <option value="{{i.id_polygon}}">{{i.id_polygon}}</option>
+                      </select>
+                  </p>
+                  <button type="submit" class="btn btn-success">создать</button>
+                </form> 
+              </nav>
+            </details>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+
+{% endblock %}

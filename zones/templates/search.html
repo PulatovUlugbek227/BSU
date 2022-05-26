@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block title %}
+поиск
+{% endblock %}
+{% block content %}
+    <div class="container mt-5">
+        <form action="{% url 'search' %}" method="POST">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-10">
+                    <input type="text" name="search" placeholder="Введите название группы" class="form-control">
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-primary" type="submit">Найти</button>
+                </div>
+            </div>
+        </form>
+        <div class="mt-5">
+            {% for group in groups %}
+            <table class="table">
+                <caption>
+                    {{group.title}}
+                </caption>
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Имя</th>
+                        <th scope="col">Фамилия</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student in group.owner_set.all %}
+                    <tr>
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td><a href="{{student.link}}">{{student.name}}</a></td>
+                        <td></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

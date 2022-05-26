@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h2 style="text-align:center">Информация о деревьях студента</h2>
+    <hr>
+    <h2 style="text-align:center">{{student.name}}</h2>
+    <h3 style="text-align:center">{{student.group}}</h3>
+    <hr>
+    {% for tree in student.tree_set.all %}
+    <table class="table table-success table-striped">
+        <caption>
+            {{tree.area}}
+        </caption>
+        <thead>
+            <tr>
+                <th>№</th>
+                <th>Дерево</th>
+                <th>Зона</th>
+            </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>
+                {{ forloop.counter }}
+            </td>
+            <td>
+                <a style="color:black;" href="{{tree.link}}">
+                    {{tree.tree_kind.title}}
+                </a>
+            </td>
+            <td>
+                {{tree.area}}
+            </td>
+        </tr>
+        </tbody>
+        
+    </table>
+    {% endfor %}
+</div>
+{% endblock %}

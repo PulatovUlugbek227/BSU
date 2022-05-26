@@ -1,0 +1,169 @@
+body{
+    margin: 0;
+}
+
+.bg-agro{
+    background-image: url(../img/zyro-image.jpg) ;
+    background-size: cover;
+    width: 100%;
+    height: 1400px;
+    display: flex;
+}
+
+.bg-agro-chek{
+  background-image: url(../img/zyro-image.jpg) ;
+  background-size: cover;
+  width: 100%;
+  height: 1400px;
+  display: flex;
+}
+
+.bg-agro-madaniyot{
+  background-image: url(../img/maydon.jpg);
+  width: 100%;
+  height: 855px;
+  background-size: 100%;
+}
+
+polygon:hover{
+    stroke-width: 7px;
+    transition: all 0.5s;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  
+
+  :root {
+    --primColor: #dcdcdc;
+    --cornerRad: 4px;
+  }
+  body {
+    background-color: var(--primColor);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+  }
+  details {
+    margin: 40px;
+  }
+  summary {
+    text-align: center;
+    padding: 0 10px;
+
+    cursor: pointer;
+    user-select: none;
+    outline: none;
+    transition: transform 200ms ease-in-out 0s;
+    
+  }
+  summary::before,
+  summary::after {
+    position: static;
+    top: 0;
+    left: 0;
+  }
+  summary::before {
+    content: "";
+  }
+  summary::after {
+    content: "";
+    letter-spacing: -1px;
+  }
+  summary:hover {
+    transform: scale(1.1);
+  }
+  summary::marker {
+    font-size: 0;
+  }
+  summary::-webkit-details-marker {
+    display: none;
+  }
+  details[open] summary::before {
+    content: "";
+  }
+  details[open] summary::after {
+    content: "";
+  }
+  .menu {
+    margin-top: 40px;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+    animation: closeMenu 1000ms ease-in-out forwards;
+  }
+  .menu a {
+    padding: 12px 24px;
+    margin: 0 16px;
+    color: var(--secoColor);
+    border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+    text-decoration: none;
+    text-align: center;
+    transition: filter 1000ms linear 0s;
+  }
+  .menu a:nth-of-type(1) {
+    padding-top: 24px;
+  }
+  .menu a:nth-last-of-type(1) {
+    border-bottom: none;
+  }
+  .menu a:hover {
+    filter: brightness(200%);
+  }
+  details::before {
+    color: var(--secoColor);
+    position: absolute;
+    margin-left: 80px;
+    padding: 10px 10px;
+    opacity: 0.4;
+  }
+  details[open]::before {
+    animation: fadeMe 300ms linear forwards;
+  }
+  @keyframes menuAnim {
+    0% {
+      height: 0;
+    }
+    100% {
+      height: 312px;
+    }
+  }
+  @keyframes fadeMe {
+    0% {
+      opacity: 0.4;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+
+.glock{
+  margin: 0 10px;
+}
+
+.center{
+  text-align: center;
+  margin: 80px;
+}
+
+@media screen and (max-width: 1366px){
+  .bg-agro{
+    width: 1440px;
+    height: 1400px;
+    overflow:scroll;
+  }
+  .bg-agro-madaniyot{
+    width: 1440px;
+    height: 855px;
+    overflow: scroll;
+    background-size: 100%;
+  }
+  .all_area_scroll{
+    overflow: scroll;
+  }
+  .bg-agro-chek{
+    width: 1440px;
+    height: 1400px;
+    overflow: scroll;
+  }
+}

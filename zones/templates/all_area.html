@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block content %}
+<body style="background: rgba(216, 202, 202, 0.678);">
+  <h1 class="text-center"><a href="{% url 'index' %}" class="btn btn-outline-secondary hhhru"><i class="fa fa-arrow-left"></i></a>Удаление </h1>
+  <hr>
+  <div class="card text-white bg-dark mb-3" style="max-width: 25rem; margin: 0 auto;">
+    <div class="card-header" style="text-align: center;">
+      Ваши Териториии
+    </div>
+    <div class="card-body">
+      <li class="nav-item dropdown" style="list-style-type: none;">
+        <a class="nav-link dropdown-toggle"  href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
+          Ваши территории
+        </a>
+        <div class="dropdown-menu " aria-labelledby="navbarDropdown">
+          {% for area in all_area %}
+            <a class="dropdown-item" href="{{area.get_absolute_url}}">{{area.title}}</a>
+          {% endfor %}
+        </div>
+      </li>
+    </div>
+  </div>
+
+  <div class="card text-white bg-dark mb-3" style="max-width: 25rem; margin: 0 auto;">
+    <div class="card-header" style="text-align: center;">создать</div>
+      <div class="card-body">
+        <form action="{% url 'all_area_create' %}" method="POST">
+          {% csrf_token %}
+          <p>
+            <label for="">
+              Наименование территории
+            </label>
+            <input type="text" class="form-control" name="title"  placeholder="madaniyot" >
+          </p>
+          <p>
+            <label for="">
+              Выберите фото територии
+            </label>
+            <input type="file" class="form-control" name="image"  placeholder="madaniyot" >
+ 
+          </p>
+          <button type="submit" class="btn btn-success">создать</button>
+        </form> 
+    </div>
+  </div>
+  <script>
+    $(document).ready(function() {
+      $('.select2').select2();
+    });
+    count.val(parseInt(count.val())+1);
+  </script>
+</body>
+{% endblock %}
