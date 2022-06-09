@@ -60,7 +60,7 @@ def tree_create(request):
         tree.owner = Owner.objects.get(id=request.POST.get('owner'))
         tree.area = Area.objects.get(id_polygon=request.POST.get('area'))
         tree.save()
-    return redirect(reverse('index'))
+    return redirect(reverse('index_detail'))
 
 def all_zones_create(request):
     if request.method == 'POST':
