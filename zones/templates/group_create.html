@@ -17,7 +17,7 @@
         {% csrf_token %}
         <p>
           <label for="">Название Группы</label>
-          <input type="text" class="form-control" name="title" placeholder="Название Группы" value="{{tree.latitude}}">
+          <input type="text" required class="form-control" name="title" placeholder="Название Группы" value="{{tree.latitude}}">
         </p>
         <button type="submit" class="btn btn-success">создать</button>
       </form> 

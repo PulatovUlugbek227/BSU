@@ -25,7 +25,7 @@
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Имя</th>
-                        <th scope="col">Фамилия</th>
+                        <th scope="col">Действие</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -33,7 +33,10 @@
                     <tr>
                         <th scope="row">{{ forloop.counter }}</th>
                         <td><a href="{{student.link}}">{{student.name}}</a></td>
-                        <td></td>
+                        <td>
+                            <a href="{% url 'student_delete' student.id %}" style="text-decoration: none; margin: 0 20px;"><i class="fas fa-trash-alt" style="color: black;"></i></a>
+                            <a href="{% url 'student_edit' student.id %}" ><i class="fas fa-edit" style="color: black;"></i></a>
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>

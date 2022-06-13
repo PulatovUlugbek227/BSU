@@ -150,28 +150,7 @@ def translit(text):
             result += i
     return result
 
-def tree_edit(request, id):
-    tree = Tree.objects.get(id=id)
-    tree_kind = TreeKind.objects.all()
-    area = Area.objects.all()
-    students = Owner.objects.all()
-    if request.method == 'POST':
-        tree.latitude = request.POST.get('latitude')
-        tree.longitude = request.POST.get('longitude')
-        tree.tree_kind = TreeKind.objects.get(id=request.POST.get('tree_kind'))
-        tree.owner = Owner.objects.get(id=request.POST.get('owner'))
-        tree.area = Area.objects.get(id_polygon=request.POST.get('area'))
-        tree.save()
-        return redirect(reverse('index'))
-    context = {'tree': tree, 'tree_kind':tree_kind, 'area':area, 'students': students}
-    return render(request, 'tree_edit.html', context)
 
-def tree_delete(request, id):
-    tree = Tree.objects.get(id=id)
-    if request.method == 'POST':
-            tree.delete()
-            return redirect(reverse('index'))
-    return render(request, 'tree_delete.html', {'tree':tree})
 
 def tree_detail(request, id):
     tree = Tree.objects.get(id=id)
@@ -199,6 +178,47 @@ def student_create(request):
         return redirect(reverse('index'))
     context = {'groups': groups, 'students':students}
     return render(request, 'student_create.html', context)
+
+def student_edit(request, id):
+    groups = Group.objects.all()
+    student = Owner.objects.get(id=id)
+    if request.method == 'POST':
+        student.name = request.POST.get('name')
+        student.group = Group.objects.get(id=request.POST.get('group'))
+        student.save()
+        return redirect(reverse('index'))
+    context = {'groups': groups, 'student': student}
+    return render(request, 'student_edit.html', context)
+
+def student_delete(request, id):
+    student = Owner.objects.get(id=id)
+    if request.method == 'POST':
+        student.delete()
+        return redirect(reverse('index'))
+    return render(request, 'student_delete.html', {'student': student})
+
+def tree_edit(request, id):
+    tree = Tree.objects.get(id=id)
+    tree_kind = TreeKind.objects.all()
+    area = Area.objects.all()
+    students = Owner.objects.all()
+    if request.method == 'POST':
+        tree.latitude = request.POST.get('latitude')
+        tree.longitude = request.POST.get('longitude')
+        tree.tree_kind = TreeKind.objects.get(id=request.POST.get('tree_kind'))
+        tree.owner = Owner.objects.get(id=request.POST.get('owner'))
+        tree.area = Area.objects.get(id_polygon=request.POST.get('area'))
+        tree.save()
+        return redirect(reverse('index'))
+    context = {'tree': tree, 'tree_kind':tree_kind, 'area':area, 'students': students}
+    return render(request, 'tree_edit.html', context)
+
+def tree_delete(request, id):
+    tree = Tree.objects.get(id=id)
+    if request.method == 'POST':
+            tree.delete()
+            return redirect(reverse('index'))
+    return render(request, 'tree_delete.html', {'tree':tree})
 
 def search(request):
     groups = Group.objects.all()

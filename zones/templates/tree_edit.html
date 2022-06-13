@@ -26,7 +26,7 @@
           <label for="">Долгота</label>
           <input type="text" class="form-control" name="longitude" required placeholder="Координаты" value="{{tree.longitude}}">
         </p>
-          <label for="">выберите дерево</label>
+          <label for="">выберите студента</label>
           <select name="owner" id="" class="form-control">
             {% for student in students %}
             <option{% if tree.owner.id == student.id %} selected {% endif %} value="{{student.id}}" >{{student.name}}</option>
