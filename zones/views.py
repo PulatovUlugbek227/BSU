@@ -6,7 +6,8 @@ from .models import All_Area, Area, Tree, TreeKind, Owner, Group
 from django.contrib.auth.models import User
 from django.db.models import Q
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login, logout     
+from django.contrib.auth import authenticate, login, logout    
+from django.core.paginator import Paginator
 
 def index_chek(request):
     area = Area.objects.filter(parent__isnull=False)
@@ -235,7 +236,11 @@ def groups(request):
 
 def student(request, id):
     student = Owner.objects.get(id=id)
-    context = {'student': student}
+    trees_lst = [tree for tree in student.tree_set.all()]
+    paginator = Paginator(trees_lst, 100)
+    page_number = request.GET.get('page')
+    trees = paginator.get_page(page_number)
+    context = {'student': student, 'trees':trees}
     return render(request, 'student.html', context)
 
 def login_site(request):
