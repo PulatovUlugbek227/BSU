@@ -8,6 +8,7 @@ from django.db.models import Q
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout    
 from django.core.paginator import Paginator
+from django.core.files.storage import FileSystemStorage
 
 def index_chek(request):
     area = Area.objects.filter(parent__isnull=False)
@@ -63,15 +64,27 @@ def tree_create(request):
         tree.save()
     return redirect(reverse('index_detail'))
 
+def tree_create_mad(request):
+    if request.method == 'POST':
+        tree = Tree()
+        tree.latitude = request.POST.get('latitude')
+        tree.longitude = request.POST.get('longitude')
+        tree.tree_kind = TreeKind.objects.get(id=request.POST.get('tree_kind'))
+        tree.owner = Owner.objects.get(id=request.POST.get('owner'))
+        tree.area = Area.objects.get(id_polygon=request.POST.get('area'))
+        tree.save()
+    return redirect(reverse('index_madaniyot'))
+
 def all_zones_create(request):
     if request.method == 'POST':
         all_area = All_Area()
         all_area.title = request.POST.get('title')
         all_area.slug = translit(request.POST.get('title'))
-        if len(request.FILES) !=0:
-            all_area.image = request.FILES['image']
-        
-        all_area.save()
+        if request.FILES.get('image', False) != False:
+            myfile = request.FILES['image']
+            fs = FileSystemStorage()
+            filename = fs.save(myfile.name, myfile)
+            all_area.image = filename
     return redirect(reverse('all_area'))
     
 def translit(text):
@@ -181,22 +194,15 @@ def student_create(request):
     return render(request, 'student_create.html', context)
 
 def student_edit(request, id):
-    groups = Group.objects.all()
     student = Owner.objects.get(id=id)
+    groups = Group.objects.all()
     if request.method == 'POST':
         student.name = request.POST.get('name')
         student.group = Group.objects.get(id=request.POST.get('group'))
         student.save()
-        return redirect(reverse('index'))
+        return redirect(reverse('groups'))
     context = {'groups': groups, 'student': student}
     return render(request, 'student_edit.html', context)
-
-def student_delete(request, id):
-    student = Owner.objects.get(id=id)
-    if request.method == 'POST':
-        student.delete()
-        return redirect(reverse('index'))
-    return render(request, 'student_delete.html', {'student': student})
 
 def tree_edit(request, id):
     tree = Tree.objects.get(id=id)
@@ -214,6 +220,15 @@ def tree_edit(request, id):
     context = {'tree': tree, 'tree_kind':tree_kind, 'area':area, 'students': students}
     return render(request, 'tree_edit.html', context)
 
+def student_delete(request, id):
+    student = Owner.objects.get(id=id)
+    if request.method == 'POST':
+        student.delete()
+        return redirect(reverse('index'))
+    return render(request, 'student_delete.html', {'student': student})
+
+
+
 def tree_delete(request, id):
     tree = Tree.objects.get(id=id)
     if request.method == 'POST':
@@ -221,7 +236,7 @@ def tree_delete(request, id):
             return redirect(reverse('index'))
     return render(request, 'tree_delete.html', {'tree':tree})
 
-def search(request):
+def search_group(request):
     groups = Group.objects.all()
     if request.method == 'POST':
         query = request.POST.get('search')
@@ -229,10 +244,23 @@ def search(request):
         return render(request, 'search.html', {'groups': groups})
     return render(request, 'search.html',{'groups': groups})
 
+def search_student(request):
+    students = Owner.objects.all()
+    if request.method == 'POST':
+        query = request.POST.get('search_stud')
+        students = Owner.objects.filter(Q(name__contains=query))
+        return render(request, 'search_student.html', {'students': students})
+    return render(request, 'search_student.html',{'students': students})
+
 def groups(request):
     groups = Group.objects.all()
     context = {'groups': groups}
     return render(request, 'groups.html', context)
+
+def students(request):
+    students = Owner.objects.all()
+    context = {'students': students}
+    return render(request, 'students.html', context)
 
 def student(request, id):
     student = Owner.objects.get(id=id)

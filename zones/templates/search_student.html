@@ -4,11 +4,11 @@
 {% endblock %}
 {% block content %}
     <div class="container mt-5">
-        <form action="{% url 'search_group' %}" method="POST">
+        <form action="{% url 'search_student' %}" method="POST">
             {% csrf_token %}
             <div class="row">
                 <div class="col-md-10">
-                    <input type="text" name="search" placeholder="Введите название группы" class="form-control">
+                    <input type="text" name="search_stud" placeholder="Введите название группы" class="form-control">
                 </div>
                 <div class="col-md-2">
                     <button class="btn btn-primary" type="submit">Найти</button>
@@ -16,30 +16,28 @@
             </div>
         </form>
         <div class="mt-5">
-            {% for group in groups %}
             <table class="table">
-                <caption>
-                    {{group.title}}
-                </caption>
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Имя</th>
-                        <th scope="col">Фамилия</th>
+                        <th scope="col">Группа</th>
+                        <th scope="col">Действие</th>
                     </tr>
                 </thead>
+            {% for student in students %}
                 <tbody>
-                    {% for student in group.owner_set.all %}
                     <tr>
                         <th scope="row">{{ forloop.counter }}</th>
                         <td><a href="{{student.link}}">{{student.name}}</a></td>
+                        <td>{{student.group}}</td>
                         <td>
-                            <a href="{% url 'student_edit' student.id %}" ><i class="fas fa-edit" style="color: black;"></i></a></td>
+                            <a href="{% url 'student_edit' student.id %}" ><i class="fas fa-edit" style="color: black;"></i></a>
+                        </td>
                     </tr>
-                    {% endfor %}
                 </tbody>
-            </table>
             {% endfor %}
+            </table>
         </div>
     </div>
 {% endblock %}

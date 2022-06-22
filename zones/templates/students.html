@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block title %}
+поиск
+{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <form action="{% url 'search_student' %}" method="POST">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-10">
+                <input type="text" name="search_stud" placeholder="Введите имя студента" class="form-control">
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-primary" type="submit">Найти</button>
+            </div>
+        </div>
+    </form>
+    <div class="mt-5">
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Имя</th>
+                    <th scope="col">Группа</th>
+                    <th scope="col">Действие</th>
+                </tr>
+            </thead>
+            {% for student in students %}
+            <tbody>
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td><a href="{{student.link}}">{{student.name}}</a></td>
+                    <td>{{student.group}}</td>
+                    <td>
+                        <a href="{% url 'student_edit' student.id %}" ><i class="fas fa-edit" style="color: black;"></i></a>
+                    </td>
+                </tr>
+            </tbody>
+            {% endfor %}
+        </table>
+        
+    </div>
+</div>
+{% endblock %}

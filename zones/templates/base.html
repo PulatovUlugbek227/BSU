@@ -55,15 +55,16 @@
         <li class="nav-item">
           <a class="nav-link" href="{% url 'group_create' %}">Добавить Группу</a>
         </li>      
-        <li class="nav-item">
+        <!-- <li class="nav-item">
           <a class="nav-link" href="{% url 'all_area' %}">создать територию</a>
-        </li>  
+        </li>   -->
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
             Найти...
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" href="{% url 'groups' %}">Найти Группу</a>
+            <a class="dropdown-item" href="{% url 'students' %}">Найти Студента</a>
           </div>
         </li>  
         <li class="nav-item">

@@ -11,7 +11,7 @@
 <div class="card text-white bg-dark mb-3" style="max-width: 25rem; margin: 0 auto;">
     <div class="card-header" style="text-align: center;">создать</div>
       <div class="card-body">
-        <form action="{% url 'student_create' %}" method="POST">
+        <form action="{% url 'student_edit' student.id %}" method="POST">
           {% csrf_token %}
           <p>
             <label for="">

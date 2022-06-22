@@ -16,7 +16,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">
-            {{i.square}} m2
+            {{m.square}} m2
           </h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -33,7 +33,7 @@
                 <th>Студент</th>
                 <th>Действие</th>
               </tr>
-              {% for t in i.tree_set.all %}
+              {% for t in m.tree_set.all %}
               <tr>
                 <td>
                   {{forloop.counter}}
@@ -55,12 +55,10 @@
             </table>
             <div>
             <hr>
-            <details>
               <summary class="btn btn-outline-success">
                 Создать
               </summary>
-              <nav class="menu">
-                <form action="{% url 'tree_create' %}" method="POST">
+                <form action="{% url 'tree_create_mad' %}" method="POST">
                   {% csrf_token %}
                   <p>
                     <label for="">
@@ -82,21 +80,19 @@
                   </p>
                   <p>
                     <label for="">Широта</label>
-                    <input type="text" class="form-control" name="latitude" required placeholder="Координаты">
+                    <input type="number" step="0.000001" class="form-control" name="latitude" required placeholder="Координаты">
                   </p>
                   <p>
                     <label for="">Долгота</label>
-                    <input type="text" class="form-control" name="longitude" required placeholder="Координаты">
+                    <input type="number" step="0.000001" class="form-control" name="longitude" required placeholder="Координаты">
                   </p>
                   <p>       
                     <select name="area"style="display: none" selec class="form-control">
-                        <option value="{{i.id_polygon}}">{{i.id_polygon}}</option>
+                        <option value="{{m.id_polygon}}">{{m.id_polygon}}</option>
                       </select>
                   </p>
                   <button type="submit" class="btn btn-success">создать</button>
                 </form> 
-              </nav>
-            </details>
           </div>
         </div>
         <div class="modal-footer">
